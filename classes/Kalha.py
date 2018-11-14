@@ -7,9 +7,17 @@ logger.setLevel(logging.DEBUG)
 class Player:
     def __init__(self, holes, seeds):
         self.holes = [seeds for x in range(holes)]
+        self.sum_Hs = 0
+        self.sum_holes_update = True
         self.home = 0
-        self.all_holes_zero = False
-        logger.debug(f"Player Init holes: {holes}, seeds: {seeds}")
+        print(f"Player Init holes: {holes}, seeds: {seeds}")
+
+
+    def get_sum_holes(self):
+        if not self.sum_holes_update:
+            self.sum_Hs = sum(self.holes)
+        print(self.sum_Hs)
+        return self.sum_Hs
 
 
 class KalhaBoard:
@@ -20,7 +28,7 @@ class KalhaBoard:
         self.p_turn = 1
 
     def is_all_holes_zero(self):
-        if self.p1.all_holes_zero and self.p2.all_holes_zero:
+        if self.p1.get_sum_holes() == self.p2.get_sum_holes() == 0:
             self.game_over = True
             return True
 
@@ -45,7 +53,7 @@ class Kalha:
         self.holes = holes
         self.seeds = seeds
         self.board = KalhaBoard(holes, seeds)
-        logger.debug(f"Kalha Init: {self}")
+        print(f"Kalha Init: {self}")
 
     def __str__(self):
         return f'H: {self.holes},S: {self.seeds}'
